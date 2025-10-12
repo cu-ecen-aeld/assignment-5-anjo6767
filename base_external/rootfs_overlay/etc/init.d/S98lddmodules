@@ -1,0 +1,26 @@
+#!/bin/sh
+case "$1" in
+  start)   
+    insmod /lib/modules/$(uname -r)/extra/scull.ko  || modprobe scull    #loading scull
+    insmod /lib/modules/$(uname -r)/extra/faulty.ko || modprobe faulty   #loading faulty
+    insmod /lib/modules/$(uname -r)/extra/hello.ko  || modprobe hello  #loading hello
+
+    ;;
+    
+  stop)
+    rmmod hello #unloading hello
+    rmmod faulty   #unloading faulty    
+    rmmod scull
+    ;;
+    
+  restart)
+    $0 stop
+    $0 start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+    ;;
+esac
+exit 0
+
